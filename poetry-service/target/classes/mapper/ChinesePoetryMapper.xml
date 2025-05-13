@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wechatapp.mengyao.poetry.mapper.ChinesePoetryMapper">
+    <resultMap id="BaseResultMap" type="com.wechatapp.mengyao.poetry.entity.ChinesePoetry">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="author" property="author" jdbcType="VARCHAR"/>
+        <result column="author_id" property="authorId" jdbcType="INTEGER"/>
+        <result column="dynasty" property="dynasty" jdbcType="VARCHAR"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="rhythmic" property="rhythmic" jdbcType="VARCHAR"/>
+        <result column="chapter" property="chapter" jdbcType="VARCHAR"/>
+        <result column="notes" property="notes" jdbcType="VARCHAR"/>
+        <result column="collection" property="collection" jdbcType="VARCHAR"/>
+        <result column="section" property="section" jdbcType="VARCHAR"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="comment" property="comment" jdbcType="VARCHAR"/>
+        <result column="tags" property="tags" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 插入诗词（返回自增主键） -->
+    <insert id="insert" parameterType="com.wechatapp.mengyao.poetry.entity.ChinesePoetry"
+            useGeneratedKeys="true" keyProperty="id">
+
+                INSERT INTO chinese_poetry (
+                author, author_id, dynasty, title, rhythmic,
+                chapter, notes, collection, section, content, comment, tags
+                ) VALUES (
+                #{author}, #{authorId}, #{dynasty}, #{title}, #{rhythmic},
+                #{chapter}, #{notes}, #{collection}, #{section}, #{content}, #{comment}, #{tags}
+                )
+
+    </insert>
+
+    <!-- 更新诗词 -->
+    <update id="update" parameterType="com.wechatapp.mengyao.poetry.entity.ChinesePoetry">
+
+                UPDATE chinese_poetry
+                SET
+                author = #{author},
+                author_id = #{authorId},
+                dynasty = #{dynasty},
+                title = #{title},
+                rhythmic = #{rhythmic},
+                chapter = #{chapter},
+                notes = #{notes},
+                collection = #{collection},
+                section = #{section},
+                content = #{content},
+                comment = #{comment},
+                tags = #{tags}
+                WHERE id = #{id}
+
+    </update>
+
+    <!-- 根据ID删除 -->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+
+                DELETE FROM chinese_poetry WHERE id = #{id}
+
+    </delete>
+
+    <!-- 根据ID查询 -->
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+
+                SELECT * FROM chinese_poetry WHERE id = #{id}
+
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectByCondition" resultMap="BaseResultMap">
+        SELECT * FROM chinese_poetry p where 1=1
+        <if test="collection != null and collection != ''">
+            and p.collection in
+            <foreach collection="collection.toString().split(',')" close=")" index="index" item="item" open="("
+                     separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="author != null and author != ''">
+            and p.author like concat('%',#{author},'%')
+        </if>
+        <if test="content != null and content != ''">
+            and p.content like concat('%',#{content},'%')
+        </if>
+        <if test="title != null and title != ''">
+            and p.title like concat('%',#{title},'%')
+        </if>
+    </select>
+
+    <!-- 根据作者ID查询 -->
+    <select id="selectByAuthorId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+
+                SELECT * FROM chinese_poetry WHERE author_id = #{authorId}
+
+    </select>
+</mapper>

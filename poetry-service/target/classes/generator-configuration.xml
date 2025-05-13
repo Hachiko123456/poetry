@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC
+        "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <context id="mysqlTables" targetRuntime="MyBatis3">
+        <!-- 使用自带序列化插件 -->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <!-- 1. 插件配置（必须在 commentGenerator 前面） -->
+        <!-- 启用 tk.mybatis 插件 -->
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+            <property name="caseSensitive" value="true"/>
+            <property name="lombok" value="Data"/> <!-- 可选：集成 Lombok -->
+        </plugin>
+
+        <!-- 2. 注释生成器 -->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <!-- 3. 数据库连接 -->
+        <jdbcConnection
+                driverClass="com.mysql.cj.jdbc.Driver"
+                connectionURL="jdbc:mysql://localhost:3306/chinese_poetry?useSSL=false&amp;serverTimezone=UTC"
+                userId="root"
+                password="123456">
+        </jdbcConnection>
+        <!-- 4. 实体类生成 -->
+        <javaModelGenerator
+                targetPackage="com.wechatapp.mengyao.poetry.entity"
+                targetProject="src/main/java">
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- 5. XML 文件生成 -->
+        <sqlMapGenerator
+                targetPackage="mapper"
+                targetProject="src/main/resources"/>
+
+        <!-- 6. Mapper 接口生成 -->
+        <javaClientGenerator
+                type="XMLMAPPER"
+                targetPackage="com.wechatapp.mengyao.poetry.mapper"
+                targetProject="src/main/java"/>
+
+        <!-- 7. 表配置 -->
+        <table tableName="chinese_poetry" domainObjectName="ChinesePoetry" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+            <generatedKey column="id" sqlStatement="MySQL" identity="true"/>
+            <columnOverride column="author" jdbcType="VARCHAR"/>
+            <columnOverride column="dynasty" jdbcType="VARCHAR"/>
+            <columnOverride column="title" jdbcType="VARCHAR"/>
+            <columnOverride column="rhythmic" jdbcType="VARCHAR"/>
+            <columnOverride column="chapter" jdbcType="VARCHAR"/>
+            <columnOverride column="notes" jdbcType="VARCHAR"/>
+            <columnOverride column="collection" jdbcType="VARCHAR"/>
+            <columnOverride column="section" jdbcType="VARCHAR"/>
+            <columnOverride column="content" jdbcType="VARCHAR"/>
+            <columnOverride column="comment" jdbcType="VARCHAR"/>
+            <columnOverride column="tags" jdbcType="VARCHAR"/>
+        </table>
+
+        <table tableName="chinese_poetry_author" domainObjectName="ChinesePoetryAuthor" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+            <generatedKey column="id" sqlStatement="MySQL" identity="true"/>
+            <columnOverride column="description" jdbcType="VARCHAR"/>
+            <columnOverride column="short_description" jdbcType="VARCHAR"/>
+        </table>
+    </context>
+</generatorConfiguration>
