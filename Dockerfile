@@ -1,7 +1,7 @@
-# 使用官方JDK 8镜像（Alpine轻量版）
+# 使用 JDK 8 官方镜像
 FROM eclipse-temurin:8-jdk-alpine
 
-# 安装Maven 3.5
+# 安装 Maven 3.5
 RUN apk add --no-cache curl tar && \
     MAVEN_VERSION=3.5.4 && \
     curl -fsSL https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz | tar -xzf - -C /opt && \
@@ -11,13 +11,14 @@ RUN apk add --no-cache curl tar && \
 # 设置工作目录
 WORKDIR /app
 
-# 复制项目文件（利用Docker层缓存优化）
-COPY pom.xml .
-RUN mvn dependency:go-offline -B
+# 复制整个项目（包括父pom和子模块）
+COPY . .
 
-# 复制源码并构建
-COPY src ./src
-RUN mvn clean package -DskipTests
+# 多阶段构建优化
+RUN mvn clean package -pl poetry-start -am -DskipTests
 
-# 设置启动命令
-ENTRYPOINT ["java","-jar","/app/target/*.jar"]
+# 暴露端口
+EXPOSE 8080
+
+# 指定启动模块的jar包
+ENTRYPOINT ["java","-jar","/app/poetry-start/target/*.jar"]
