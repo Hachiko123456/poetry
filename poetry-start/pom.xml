@@ -5,12 +5,14 @@
     <parent>
         <groupId>com.wechatapp.mengyao</groupId>
         <artifactId>poetry</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>poetry-start</artifactId>
     <name>poetry-start</name>
     <description>入口模块，引导工程启动以及基础配置</description>
+    <packaging>jar</packaging>
+    <version>1.0</version>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -23,6 +25,7 @@
         <dependency>
             <groupId>com.wechatapp.mengyao</groupId>
             <artifactId>poetry-service</artifactId>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
@@ -57,9 +60,11 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.6.13</version>
+                <version>${spring-boot.version}</version>
                 <configuration>
                     <mainClass>com.wechatapp.mengyao.poetry.PoetryApplication</mainClass>
+                    <skip>true</skip>
+                    <classifier>exec</classifier>
                 </configuration>
                 <executions>
                     <execution>
