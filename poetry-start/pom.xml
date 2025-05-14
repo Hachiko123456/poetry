@@ -63,8 +63,6 @@
                 <version>${spring-boot.version}</version>
                 <configuration>
                     <mainClass>com.wechatapp.mengyao.poetry.PoetryApplication</mainClass>
-                    <skip>true</skip>
-                    <classifier>exec</classifier>
                 </configuration>
                 <executions>
                     <execution>
