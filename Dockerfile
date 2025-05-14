@@ -33,7 +33,7 @@ WORKDIR /app
 COPY . .
 
 # 使用腾讯云镜像构建
-RUN mvn -s /usr/share/maven/ref/settings.xml clean package -pl poetry-start -am -DskipTests
+RUN mvn -s /usr/share/maven/ref/settings.xml clean package -P pro -pl poetry-start -am -DskipTests
 
 # 暴露端口
 EXPOSE 8080
